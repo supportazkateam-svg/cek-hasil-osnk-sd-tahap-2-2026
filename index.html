@@ -355,7 +355,7 @@
   /* ---------- Result: found ---------- */
   .hidden{display:none !important;}
 
-  #view-result, #view-notfound, #view-multi{
+  #view-result, #view-notfound, #view-multi, #view-school, #view-school-list, #view-combined{
     text-align:center;
   }
 
@@ -493,15 +493,152 @@
     cursor:pointer;
     transition:background .15s, border-color .15s;
     display:flex;
-    justify-content:space-between;
     align-items:center;
     gap:10px;
   }
   .multi-item:hover{background:rgba(255,200,87,0.10); border-color:rgba(255,200,87,0.3);}
-  .multi-item > div{min-width:0;}
+  .multi-item > div{min-width:0; flex:1 1 auto;}
   .multi-item .nm{font-weight:600; font-size:14px; overflow-wrap:break-word;}
   .multi-item .sc{font-size:11.5px; color:var(--text-faint); margin-top:3px; overflow-wrap:break-word;}
   .multi-item .go{opacity:0.5; flex:none;}
+
+  .count-badge{
+    flex:none;
+    font-family:'Sora',sans-serif;
+    font-weight:700;
+    font-size:11px;
+    color:var(--gold);
+    background:rgba(255,200,87,0.12);
+    border:1px solid rgba(255,200,87,0.28);
+    padding:4px 10px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+
+  .tag-sekolah{
+    display:inline-block;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:0.06em;
+    color:#8fb5ff;
+    background:rgba(62,123,250,0.16);
+    border-radius:6px;
+    padding:2px 6px;
+    margin-right:6px;
+    vertical-align:middle;
+    white-space:nowrap;
+  }
+
+  .section-heading{
+    font-family:'Sora',sans-serif;
+    font-weight:700;
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    margin:20px 0 8px;
+    text-align:left;
+  }
+  .section-heading:first-of-type{margin-top:16px;}
+
+  /* ---------- School view (header + peserta cards) ---------- */
+  .school-header{
+    text-align:center;
+    margin-bottom:8px;
+  }
+  .school-count-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:4px 12px;
+    border-radius:999px;
+    font-size:11.5px;
+    font-weight:700;
+    font-family:'Sora',sans-serif;
+    color:var(--gold);
+    background:rgba(255,200,87,0.13);
+    border:1px solid rgba(255,200,87,0.3);
+    margin-bottom:12px;
+  }
+  .school-name{
+    font-family:'Sora',sans-serif;
+    font-weight:700;
+    font-size:clamp(18px,3.8vw,23px);
+    line-height:1.3;
+    margin:0 0 8px;
+    overflow-wrap:break-word;
+  }
+  .school-meta{
+    font-size:13px;
+    color:var(--text-dim);
+    margin-bottom:3px;
+  }
+  .school-meta.mono{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--text-faint);
+    margin-bottom:0;
+  }
+
+  .peserta-list{
+    text-align:left;
+    margin-top:20px;
+    max-height:420px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding-right:2px;
+  }
+  .peserta-list::-webkit-scrollbar{width:6px;}
+  .peserta-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.18); border-radius:3px;}
+  .peserta-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:rgba(255,255,255,0.055);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:16px;
+    padding:11px 14px;
+    cursor:pointer;
+    transition:background .15s, border-color .15s, transform .15s;
+  }
+  .peserta-card:hover{
+    background:rgba(255,200,87,0.10);
+    border-color:rgba(255,200,87,0.32);
+    transform:translateY(-1px);
+  }
+  .peserta-check{
+    flex:none;
+    width:36px;height:36px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 35% 30%, rgba(255,216,138,0.85), rgba(255,159,90,0.10) 72%);
+    box-shadow:0 0 14px rgba(255,200,87,0.32), inset 0 1px 0 rgba(255,255,255,0.5);
+  }
+  .peserta-check svg{width:17px;height:17px;}
+  .peserta-check .tick2{
+    stroke:#241300; stroke-width:4; fill:none;
+    stroke-linecap:round; stroke-linejoin:round;
+  }
+  .peserta-main{flex:1 1 auto; min-width:0;}
+  .peserta-lolos-tag{
+    font-family:'Sora',sans-serif;
+    font-weight:800;
+    font-size:10px;
+    letter-spacing:0.09em;
+    color:var(--gold);
+    display:block;
+    margin-bottom:3px;
+  }
+  .peserta-name{
+    font-weight:600;
+    font-size:14px;
+    overflow-wrap:break-word;
+    margin-bottom:6px;
+    line-height:1.3;
+  }
+  .peserta-go{flex:none; opacity:0.45;}
 
   .multi-refine{
     background:rgba(255,255,255,0.05);
@@ -563,6 +700,23 @@
   }
   .back-row .btn{flex:1; min-width:0;}
 
+  .link-reset{
+    display:block;
+    width:100%;
+    background:none;
+    border:none;
+    color:var(--text-faint);
+    font-family:'Inter',sans-serif;
+    font-size:12.5px;
+    text-decoration:underline;
+    text-underline-offset:2px;
+    cursor:pointer;
+    margin:12px auto 0;
+    padding:4px;
+    text-align:center;
+  }
+  .link-reset:hover{color:var(--text-dim);}
+
   .sr-only{
     position:absolute; width:1px; height:1px; padding:0; margin:-1px;
     overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
@@ -595,18 +749,18 @@
 
   <!-- SEARCH VIEW -->
   <section id="view-search" class="panel glass">
-    <label for="search-input" class="sr-only">Nama peserta</label>
+    <label for="search-input" class="sr-only">Nama peserta, nama sekolah, atau NPSN</label>
     <div class="autocomplete-wrap">
       <div class="search-row">
         <div class="search-field">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input id="search-input" type="text" placeholder="Nama lengkap peserta…" autocomplete="off" inputmode="text">
+          <input id="search-input" type="text" placeholder="Nama peserta atau nama sekolah…" autocomplete="off" inputmode="text">
         </div>
         <button id="btn-search" class="btn btn-primary">Cari</button>
       </div>
       <div id="suggest" class="suggest"></div>
     </div>
-    <p class="search-help">Guru dan pihak sekolah juga dapat mencari dengan mengetik <strong>NPSN sekolah</strong> untuk melihat seluruh peserta yang lolos dari sekolah tersebut.</p>
+    <p class="search-help">Bisa cari pakai <strong>nama peserta</strong>, <strong>nama sekolah</strong>, atau <strong>NPSN sekolah</strong> untuk melihat semua peserta yang lolos dari sekolah tersebut.</p>
 
     <div class="stats" id="stats-row"></div>
     <p class="stats-caption">Total peserta yang melaju ke OSN-P 2026</p>
@@ -649,8 +803,9 @@
     </div>
 
     <div class="back-row">
-      <button class="btn btn-ghost btn-block" data-action="reset">Cari Nama Lain</button>
+      <button class="btn btn-ghost btn-block" data-action="back">← Kembali</button>
     </div>
+    <button class="link-reset" data-action="reset" type="button">Cari dari awal</button>
   </section>
 
   <!-- NOT FOUND VIEW -->
@@ -659,17 +814,66 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     </div>
     <h2 class="status-title" style="background:none; -webkit-text-fill-color:var(--text); color:var(--text);">Belum Ditemukan</h2>
-    <p class="status-body">Nama <strong id="nf-query">—</strong> tidak ditemukan pada daftar peserta yang lolos ke OSN-P Tahap ini. Periksa kembali ejaan nama, atau hubungi sekolah / dinas pendidikan setempat untuk konfirmasi lebih lanjut.</p>
+    <p class="status-body">Pencarian <strong id="nf-query">—</strong> tidak ditemukan pada daftar peserta yang lolos ke OSN-P Tahap ini. Periksa kembali ejaan, atau hubungi sekolah / dinas pendidikan setempat untuk konfirmasi lebih lanjut.</p>
     <button class="btn btn-ghost btn-block" data-action="reset">Coba Lagi</button>
   </section>
 
-  <!-- MULTI MATCH VIEW -->
+  <!-- MULTI STUDENT MATCH VIEW -->
   <section id="view-multi" class="panel glass hidden">
     <h2 class="status-title" style="background:none; -webkit-text-fill-color:var(--text); color:var(--text); font-size:22px;" id="multi-title">Ditemukan beberapa peserta</h2>
     <p class="status-body" id="multi-sub">Pilih nama yang sesuai dari daftar berikut.</p>
     <div class="multi-list" id="multi-list"></div>
     <div class="multi-refine hidden" id="multi-refine"></div>
-    <button class="btn btn-ghost btn-block" data-action="reset" style="margin-top:16px;">Kembali</button>
+    <div class="back-row" style="margin-top:16px;">
+      <button class="btn btn-ghost btn-block" data-action="back">← Kembali</button>
+    </div>
+    <button class="link-reset" data-action="reset" type="button">Cari dari awal</button>
+  </section>
+
+  <!-- SINGLE SCHOOL: PARTICIPANT LIST VIEW -->
+  <section id="view-school" class="panel glass hidden">
+    <div class="school-header">
+      <div class="school-count-pill" id="school-count-pill">— peserta lolos</div>
+      <h2 class="school-name" id="school-name">—</h2>
+      <div class="school-meta" id="school-meta">—</div>
+      <div class="school-meta mono" id="school-npsn">—</div>
+    </div>
+    <div class="peserta-list" id="peserta-list"></div>
+    <div class="back-row" style="margin-top:16px;">
+      <button class="btn btn-ghost btn-block" data-action="back">← Kembali</button>
+    </div>
+    <button class="link-reset" data-action="reset" type="button">Cari dari awal</button>
+  </section>
+
+  <!-- MULTI SCHOOL MATCH VIEW -->
+  <section id="view-school-list" class="panel glass hidden">
+    <h2 class="status-title" style="background:none; -webkit-text-fill-color:var(--text); color:var(--text); font-size:22px;" id="school-list-title">Ditemukan beberapa sekolah</h2>
+    <p class="status-body" id="school-list-sub">Pilih sekolah yang sesuai dari daftar berikut.</p>
+    <div class="multi-list" id="school-list-items"></div>
+    <div class="multi-refine hidden" id="school-list-refine"></div>
+    <div class="back-row" style="margin-top:16px;">
+      <button class="btn btn-ghost btn-block" data-action="back">← Kembali</button>
+    </div>
+    <button class="link-reset" data-action="reset" type="button">Cari dari awal</button>
+  </section>
+
+  <!-- COMBINED (STUDENT + SCHOOL) MATCH VIEW -->
+  <section id="view-combined" class="panel glass hidden">
+    <h2 class="status-title" style="background:none; -webkit-text-fill-color:var(--text); color:var(--text); font-size:22px;">Ditemukan Beberapa Hasil</h2>
+    <p class="status-body" id="combined-sub">Pilih peserta atau sekolah di bawah ini.</p>
+
+    <div class="section-heading" id="combined-peserta-heading">Peserta</div>
+    <div class="multi-list" id="combined-peserta-list"></div>
+    <div class="multi-refine hidden" id="combined-peserta-refine"></div>
+
+    <div class="section-heading" id="combined-school-heading">Sekolah</div>
+    <div class="multi-list" id="combined-school-list"></div>
+    <div class="multi-refine hidden" id="combined-school-refine"></div>
+
+    <div class="back-row" style="margin-top:16px;">
+      <button class="btn btn-ghost btn-block" data-action="back">← Kembali</button>
+    </div>
+    <button class="link-reset" data-action="reset" type="button">Cari dari awal</button>
   </section>
 
 </main>
@@ -696,6 +900,15 @@
   }
 
   const normNames = students.map(s => normalize(s[0]));
+  const normSchoolNames = schools.map(s => normalize(s[1]));
+  const normSchoolSearchStr = schools.map((s)=>{
+    const kab = kabs[s[2]];
+    return normalize(s[1] + ' ' + kab[0] + ' ' + provs[kab[1]]);
+  });
+  const studentsBySchool = {};
+  students.forEach((s,i)=>{
+    (studentsBySchool[s[2]] = studentsBySchool[s[2]] || []).push(i);
+  });
 
   function getSchoolInfo(schoolIndex){
     const s = schools[schoolIndex];
@@ -726,35 +939,65 @@
     return limit ? results.slice(0, limit) : results;
   }
 
-  function searchByNpsn(query){
-    const q = query.trim();
-    const idxs = [];
-    for(let i=0;i<schools.length;i++){ if(schools[i][0]===q) idxs.push(i); }
-    if(idxs.length===0) return [];
-    const set = new Set(idxs);
+  function searchSchoolsByName(query, limit){
+    const nq = normalize(query);
+    if(!nq) return [];
+    const tokens = nq.split(' ');
     const results = [];
-    for(let i=0;i<students.length;i++){ if(set.has(students[i][2])) results.push(i); }
-    return results;
+    for(let i=0;i<schools.length;i++){
+      const hay = normSchoolSearchStr[i];
+      let ok = true;
+      for(let t=0;t<tokens.length;t++){
+        if(!hay.includes(tokens[t])){ ok = false; break; }
+      }
+      if(ok) results.push(i);
+    }
+    results.sort((a,b)=>{
+      const an = normSchoolNames[a], bn = normSchoolNames[b];
+      const ae = an===nq?0:(an.startsWith(nq)?1:2);
+      const be = bn===nq?0:(bn.startsWith(nq)?1:2);
+      if(ae!==be) return ae-be;
+      const ca = (studentsBySchool[a]||[]).length, cb = (studentsBySchool[b]||[]).length;
+      if(ca!==cb) return cb-ca;
+      return an.localeCompare(bn);
+    });
+    return limit ? results.slice(0, limit) : results;
+  }
+
+  function searchSchoolsByNpsn(query){
+    const q = query.trim();
+    const out = [];
+    for(let i=0;i<schools.length;i++){ if(schools[i][0]===q) out.push(i); }
+    return out;
   }
 
   function isNumericQuery(q){ return /^[0-9]{4,}$/.test(q.trim()); }
 
   const MULTI_LIMIT = 40;
+  const SCHOOL_MULTI_LIMIT = 25;
 
   function doSearch(query){
     query = query.trim();
     if(!query) return { type:'empty' };
-    let idxs, viaNpsn = false;
-    if(isNumericQuery(query)){
-      idxs = searchByNpsn(query);
-      viaNpsn = true;
-      if(idxs.length===0) return { type:'notfound', query, npsn:true };
-    } else {
-      idxs = searchByName(query);
-      if(idxs.length===0) return { type:'notfound', query, npsn:false };
+
+    const numeric = isNumericQuery(query);
+    const schoolIdxs = numeric ? searchSchoolsByNpsn(query) : searchSchoolsByName(query);
+    const nameIdxs = numeric ? [] : searchByName(query);
+
+    const hasNames = nameIdxs.length > 0;
+    const hasSchools = schoolIdxs.length > 0;
+
+    if(!hasNames && !hasSchools) return { type:'notfound', query, npsn:numeric };
+
+    if(hasSchools && !hasNames){
+      if(schoolIdxs.length === 1) return { type:'school', schoolIndex: schoolIdxs[0] };
+      return { type:'school-list', schoolIndexes: schoolIdxs, query };
     }
-    if(idxs.length===1) return { type:'found', index: idxs[0] };
-    return { type:'multi', indexes: idxs, query, viaNpsn };
+    if(hasNames && !hasSchools){
+      if(nameIdxs.length === 1) return { type:'found', index: nameIdxs[0] };
+      return { type:'multi', indexes: nameIdxs, query };
+    }
+    return { type:'combined', nameIndexes: nameIdxs, schoolIndexes: schoolIdxs, query };
   }
 
   // ---------- DOM refs ----------
@@ -763,6 +1006,9 @@
     result: document.getElementById('view-result'),
     notfound: document.getElementById('view-notfound'),
     multi: document.getElementById('view-multi'),
+    school: document.getElementById('view-school'),
+    schoolList: document.getElementById('view-school-list'),
+    combined: document.getElementById('view-combined'),
   };
   const input = document.getElementById('search-input');
   const btnSearch = document.getElementById('btn-search');
@@ -776,7 +1022,16 @@
     views[name].style.animation = '';
   }
 
+  // Simple back-navigation stack: each entry is a function that re-renders
+  // the view we came from. Pushed just before drilling into a deeper view.
+  let backStack = [];
+  function goBack(){
+    const prev = backStack.pop();
+    if(prev){ prev(); } else { resetToSearch(); }
+  }
+
   function resetToSearch(){
+    backStack = [];
     showView('search');
     input.value = '';
     hideSuggest();
@@ -784,6 +1039,9 @@
   }
   document.querySelectorAll('[data-action="reset"]').forEach(btn=>{
     btn.addEventListener('click', resetToSearch);
+  });
+  document.querySelectorAll('[data-action="back"]').forEach(btn=>{
+    btn.addEventListener('click', goBack);
   });
 
   // ---------- Stats ----------
@@ -812,24 +1070,20 @@
     fireBurst();
   }
 
-  function renderNotFound(query){
-    document.getElementById('nf-query').textContent = '"'+query+'"';
+  function renderNotFound(query, isNpsn){
+    const label = isNpsn ? ('NPSN "'+query+'"') : ('"'+query+'"');
+    document.getElementById('nf-query').textContent = label;
     showView('notfound');
   }
 
-  function renderMulti(indexes, query, viaNpsn){
+  function renderMulti(indexes, query){
     const titleEl = document.getElementById('multi-title');
     const subEl = document.getElementById('multi-sub');
     const listEl = document.getElementById('multi-list');
     const refineEl = document.getElementById('multi-refine');
 
-    if(viaNpsn){
-      titleEl.textContent = 'Peserta Lolos dari Sekolah Ini';
-      subEl.textContent = 'Ditemukan '+indexes.length+' peserta yang lolos dari NPSN '+query+'.';
-    } else {
-      titleEl.textContent = 'Ditemukan Beberapa Peserta';
-      subEl.textContent = 'Ada '+indexes.length+' peserta dengan nama serupa "'+query+'". Pilih salah satu:';
-    }
+    titleEl.textContent = 'Ditemukan Beberapa Peserta';
+    subEl.textContent = 'Ada '+indexes.length+' peserta dengan nama serupa "'+query+'". Pilih salah satu:';
 
     if(indexes.length > MULTI_LIMIT){
       listEl.classList.add('hidden');
@@ -847,10 +1101,140 @@
         '</div>';
       }).join('');
       listEl.querySelectorAll('.multi-item').forEach(el=>{
-        el.addEventListener('click', ()=> renderFound(parseInt(el.getAttribute('data-index'),10)));
+        el.addEventListener('click', ()=>{
+          const idx = parseInt(el.getAttribute('data-index'),10);
+          backStack.push(()=> renderMulti(indexes, query));
+          renderFound(idx);
+        });
       });
     }
     showView('multi');
+  }
+
+  function pesertaCardHtml(i){
+    const s = students[i];
+    return '<div class="peserta-card" data-index="'+i+'">'+
+      '<div class="peserta-check"><svg viewBox="0 0 24 24"><path class="tick2" d="M4 12.5L9.5 18L20 6.5"/></svg></div>'+
+      '<div class="peserta-main">'+
+        '<span class="peserta-lolos-tag">LOLOS</span>'+
+        '<div class="peserta-name">'+escapeHtml(s[0])+'</div>'+
+        '<span class="bidang-pill '+BIDANG_CLASS[s[1]]+'">'+BIDANG_NAMES[s[1]]+'</span>'+
+      '</div>'+
+      '<svg class="peserta-go" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>'+
+    '</div>';
+  }
+
+  function schoolItemHtml(i){
+    const info = getSchoolInfo(i);
+    const count = (studentsBySchool[i]||[]).length;
+    return '<div class="multi-item" data-school="'+i+'">'+
+      '<div><div class="nm">'+escapeHtml(info.sekolah)+'</div><div class="sc">'+escapeHtml(info.kabkota)+' &middot; '+escapeHtml(info.provinsi)+'</div></div>'+
+      '<span class="count-badge">'+count+' lolos</span>'+
+      '<svg class="go" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>'+
+    '</div>';
+  }
+
+  function renderSchool(schoolIndex){
+    const info = getSchoolInfo(schoolIndex);
+    const idxs = (studentsBySchool[schoolIndex] || []).slice()
+      .sort((a,b)=> students[a][0].localeCompare(students[b][0]));
+
+    document.getElementById('school-count-pill').textContent = idxs.length + ' peserta lolos';
+    document.getElementById('school-name').textContent = info.sekolah;
+    document.getElementById('school-meta').textContent = info.kabkota + ' · ' + info.provinsi;
+    document.getElementById('school-npsn').textContent = 'NPSN ' + info.npsn;
+
+    const listEl = document.getElementById('peserta-list');
+    listEl.innerHTML = idxs.map(pesertaCardHtml).join('');
+    listEl.querySelectorAll('.peserta-card').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const idx = parseInt(el.getAttribute('data-index'),10);
+        backStack.push(()=> renderSchool(schoolIndex));
+        renderFound(idx);
+      });
+    });
+    showView('school');
+  }
+
+  function renderSchoolList(schoolIdxs, query){
+    const titleEl = document.getElementById('school-list-title');
+    const subEl = document.getElementById('school-list-sub');
+    const listEl = document.getElementById('school-list-items');
+    const refineEl = document.getElementById('school-list-refine');
+
+    titleEl.textContent = 'Ditemukan Beberapa Sekolah';
+    subEl.textContent = 'Ada '+schoolIdxs.length+' sekolah dengan nama serupa "'+query+'". Pilih salah satu:';
+
+    if(schoolIdxs.length > SCHOOL_MULTI_LIMIT){
+      listEl.classList.add('hidden');
+      refineEl.classList.remove('hidden');
+      refineEl.textContent = 'Terlalu banyak sekolah ditemukan ('+schoolIdxs.length+'). Coba tambahkan nama kota/kabupaten, misalnya "SD Negeri 1 Jakarta".';
+    } else {
+      refineEl.classList.add('hidden');
+      listEl.classList.remove('hidden');
+      listEl.innerHTML = schoolIdxs.map(schoolItemHtml).join('');
+      listEl.querySelectorAll('.multi-item').forEach(el=>{
+        el.addEventListener('click', ()=>{
+          const idx = parseInt(el.getAttribute('data-school'),10);
+          backStack.push(()=> renderSchoolList(schoolIdxs, query));
+          renderSchool(idx);
+        });
+      });
+    }
+    showView('schoolList');
+  }
+
+  function renderCombined(nameIdxs, schoolIdxs, query){
+    document.getElementById('combined-sub').textContent = 'Ditemukan hasil untuk "'+query+'" — pilih peserta atau sekolah di bawah ini:';
+
+    const pesertaHeading = document.getElementById('combined-peserta-heading');
+    const pesertaListEl = document.getElementById('combined-peserta-list');
+    const pesertaRefine = document.getElementById('combined-peserta-refine');
+    pesertaHeading.textContent = 'Peserta ('+nameIdxs.length+')';
+    if(nameIdxs.length > MULTI_LIMIT){
+      pesertaListEl.classList.add('hidden');
+      pesertaRefine.classList.remove('hidden');
+      pesertaRefine.textContent = 'Terlalu banyak peserta ('+nameIdxs.length+'). Ketik nama lengkap untuk mempersempit.';
+    } else {
+      pesertaRefine.classList.add('hidden');
+      pesertaListEl.classList.remove('hidden');
+      pesertaListEl.innerHTML = nameIdxs.map(i=>{
+        const s = students[i]; const info = getSchoolInfo(s[2]);
+        return '<div class="multi-item" data-index="'+i+'">'+
+          '<div><div class="nm">'+escapeHtml(s[0])+'</div><div class="sc">'+BIDANG_NAMES[s[1]]+' &middot; '+escapeHtml(info.sekolah)+'</div></div>'+
+          '<svg class="go" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>'+
+        '</div>';
+      }).join('');
+      pesertaListEl.querySelectorAll('.multi-item').forEach(el=>{
+        el.addEventListener('click', ()=>{
+          const idx = parseInt(el.getAttribute('data-index'),10);
+          backStack.push(()=> renderCombined(nameIdxs, schoolIdxs, query));
+          renderFound(idx);
+        });
+      });
+    }
+
+    const schoolHeading = document.getElementById('combined-school-heading');
+    const schoolListEl = document.getElementById('combined-school-list');
+    const schoolRefine = document.getElementById('combined-school-refine');
+    schoolHeading.textContent = 'Sekolah ('+schoolIdxs.length+')';
+    if(schoolIdxs.length > SCHOOL_MULTI_LIMIT){
+      schoolListEl.classList.add('hidden');
+      schoolRefine.classList.remove('hidden');
+      schoolRefine.textContent = 'Terlalu banyak sekolah ('+schoolIdxs.length+'). Coba tambahkan nama kota/kabupaten.';
+    } else {
+      schoolRefine.classList.add('hidden');
+      schoolListEl.classList.remove('hidden');
+      schoolListEl.innerHTML = schoolIdxs.map(schoolItemHtml).join('');
+      schoolListEl.querySelectorAll('.multi-item').forEach(el=>{
+        el.addEventListener('click', ()=>{
+          const idx = parseInt(el.getAttribute('data-school'),10);
+          backStack.push(()=> renderCombined(nameIdxs, schoolIdxs, query));
+          renderSchool(idx);
+        });
+      });
+    }
+    showView('combined');
   }
 
   function escapeHtml(str){
@@ -863,9 +1247,13 @@
     const q = input.value;
     const r = doSearch(q);
     if(r.type==='empty'){ input.focus(); return; }
+    backStack = [];
     if(r.type==='found') renderFound(r.index);
-    else if(r.type==='notfound') renderNotFound(r.query);
-    else if(r.type==='multi') renderMulti(r.indexes, r.query, r.viaNpsn);
+    else if(r.type==='notfound') renderNotFound(r.query, r.npsn);
+    else if(r.type==='multi') renderMulti(r.indexes, r.query);
+    else if(r.type==='school') renderSchool(r.schoolIndex);
+    else if(r.type==='school-list') renderSchoolList(r.schoolIndexes, r.query);
+    else if(r.type==='combined') renderCombined(r.nameIndexes, r.schoolIndexes, r.query);
   }
   btnSearch.addEventListener('click', runSearch);
   input.addEventListener('keydown', e=>{
@@ -887,21 +1275,36 @@
     const q = input.value.trim();
     activeIdx = -1;
     if(q.length < 2 || isNumericQuery(q)){ hideSuggest(); return; }
-    const idxs = searchByName(q, 7);
-    currentSuggestions = idxs;
-    if(idxs.length===0){ hideSuggest(); return; }
-    suggestBox.innerHTML = idxs.map((i,pos)=>{
-      const s = students[i];
-      const info = getSchoolInfo(s[2]);
-      return '<div class="suggest-item" data-index="'+i+'" data-pos="'+pos+'">'+
-        '<div class="nm">'+escapeHtml(s[0])+'</div>'+
-        '<div class="sc">'+BIDANG_NAMES[s[1]]+' &middot; '+escapeHtml(info.sekolah)+'</div>'+
+    const nameIdxs = searchByName(q, 5);
+    const schoolIdxs = searchSchoolsByName(q, 4);
+    currentSuggestions = [
+      ...nameIdxs.map(i=>({ kind:'student', index:i })),
+      ...schoolIdxs.map(i=>({ kind:'school', index:i })),
+    ];
+    if(currentSuggestions.length===0){ hideSuggest(); return; }
+    suggestBox.innerHTML = currentSuggestions.map(sug=>{
+      if(sug.kind==='student'){
+        const s = students[sug.index];
+        const info = getSchoolInfo(s[2]);
+        return '<div class="suggest-item" data-kind="student" data-index="'+sug.index+'">'+
+          '<div class="nm">'+escapeHtml(s[0])+'</div>'+
+          '<div class="sc">'+BIDANG_NAMES[s[1]]+' &middot; '+escapeHtml(info.sekolah)+'</div>'+
+        '</div>';
+      }
+      const info = getSchoolInfo(sug.index);
+      const count = (studentsBySchool[sug.index]||[]).length;
+      return '<div class="suggest-item" data-kind="school" data-index="'+sug.index+'">'+
+        '<div class="nm"><span class="tag-sekolah">SEKOLAH</span> '+escapeHtml(info.sekolah)+'</div>'+
+        '<div class="sc">'+escapeHtml(info.kabkota)+' &middot; '+count+' lolos</div>'+
       '</div>';
     }).join('');
     suggestBox.querySelectorAll('.suggest-item').forEach(el=>{
       el.addEventListener('mousedown', (e)=>{
         e.preventDefault();
-        renderFound(parseInt(el.getAttribute('data-index'),10));
+        const idx = parseInt(el.getAttribute('data-index'),10);
+        backStack = [];
+        if(el.getAttribute('data-kind')==='student') renderFound(idx);
+        else renderSchool(idx);
       });
     });
     suggestBox.classList.add('show');
@@ -925,7 +1328,10 @@
       items.forEach((it,i)=>it.classList.toggle('active', i===activeIdx));
     } else if(e.key==='Enter' && activeIdx>=0){
       e.preventDefault();
-      renderFound(currentSuggestions[activeIdx]);
+      const sug = currentSuggestions[activeIdx];
+      backStack = [];
+      if(sug.kind==='student') renderFound(sug.index);
+      else renderSchool(sug.index);
     }
   });
   document.addEventListener('click', (e)=>{
