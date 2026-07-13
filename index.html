@@ -515,6 +515,118 @@
     white-space:nowrap;
   }
 
+  /* ---------- Countdown card ---------- */
+  .countdown-card{
+    width:100%;
+    max-width:560px;
+    padding:26px 28px;
+    text-align:center;
+    margin-bottom:24px;
+  }
+  .countdown-label{
+    font-family:'Sora',sans-serif;
+    font-weight:700;
+    font-size:11.5px;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:6px;
+  }
+  .countdown-date{
+    font-size:13.5px;
+    color:var(--text-dim);
+    margin-bottom:18px;
+  }
+  .countdown-grid{
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    gap:8px;
+  }
+  .countdown-unit{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-width:50px;
+  }
+  .countdown-num{
+    font-family:'Sora',sans-serif;
+    font-weight:800;
+    font-size:clamp(24px,7vw,36px);
+    line-height:1;
+    background:linear-gradient(135deg, var(--gold-soft), var(--gold) 60%, #ff9f5a);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    font-variant-numeric:tabular-nums;
+  }
+  .countdown-unit-label{
+    font-size:10px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    margin-top:5px;
+  }
+  .countdown-sep{
+    font-family:'Sora',sans-serif;
+    font-weight:800;
+    font-size:clamp(20px,6vw,30px);
+    color:var(--text-faint);
+    align-self:flex-start;
+    line-height:1;
+  }
+  @media (max-width:380px){
+    .countdown-grid{gap:4px;}
+    .countdown-unit{min-width:42px;}
+  }
+
+  /* ---------- Full-page lock screen ---------- */
+  .lock-screen{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .lock-panel{
+    text-align:center;
+    max-width:440px;
+    padding:44px 34px 38px;
+  }
+  .lock-icon-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:22px;
+  }
+  .lock-svg{
+    width:92px;
+    height:92px;
+    filter:drop-shadow(0 0 26px rgba(255,200,87,0.5));
+    animation:lockPulse 3.2s ease-in-out infinite;
+  }
+  @keyframes lockPulse{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.06); }
+  }
+  .lock-title{
+    font-family:'Sora',sans-serif;
+    font-weight:800;
+    font-size:24px;
+    margin:0 0 12px;
+    color:var(--text);
+  }
+  .lock-message{
+    font-size:14.5px;
+    line-height:1.65;
+    color:var(--text-dim);
+    margin:0;
+  }
+  @media (prefers-reduced-motion:reduce){
+    .lock-svg{ animation:none; }
+  }
+
   /* mode selector tabs */
   .mode-tabs{
     display:flex;
@@ -755,6 +867,21 @@
   <h1 class="headline">Cek Hasil <span class="accent">OSN-K</span> Kamu</h1>
   <p class="subhead">Ketik nama peserta untuk melihat apakah Ananda dinyatakan lolos OSN-K Tahap 2 dan berhak maju ke OSN-P 2026.</p>
 
+  <!-- COUNTDOWN CARD (always visible, independent of search view state) -->
+  <div class="countdown-card glass" id="countdown-card">
+    <div class="countdown-label">Pencarian Hasil OSN-K Akan Ditutup Dalam</div>
+    <div class="countdown-date">19 Juli 2026, pukul 23.59</div>
+    <div class="countdown-grid">
+      <div class="countdown-unit"><span class="countdown-num" id="cd-days">0</span><span class="countdown-unit-label">Hari</span></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-hours">00</span><span class="countdown-unit-label">Jam</span></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-mins">00</span><span class="countdown-unit-label">Menit</span></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-secs">00</span><span class="countdown-unit-label">Detik</span></div>
+    </div>
+  </div>
+
   <!-- SEARCH VIEW -->
   <section id="view-search" class="panel glass">
     <div class="mode-tabs" role="tablist" aria-label="Jenis pencarian">
@@ -874,10 +1001,33 @@
 
 </main>
 
-<footer class="credit">
+<footer class="credit" id="site-footer">
   Data hasil resmi OSN-K Tahap 2 Jenjang SD/MI Sederajat Tahun 2026 &middot; Surat No. 1311/B/H3/PN.00/2026<br>
   Pencarian berbasis nama peserta sebagaimana tercantum pada lampiran resmi.
 </footer>
+
+<!-- LOCK SCREEN: replaces the whole site automatically once the lock moment is reached -->
+<div id="lock-screen" class="lock-screen hidden">
+  <div class="panel glass lock-panel">
+    <div class="lock-icon-wrap">
+      <svg class="lock-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="lockGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffe3ab"/>
+            <stop offset="55%" stop-color="#ffc857"/>
+            <stop offset="100%" stop-color="#ff9f5a"/>
+          </linearGradient>
+        </defs>
+        <path d="M31 46 V31 a19 19 0 0 1 38 0 V46" fill="none" stroke="url(#lockGrad)" stroke-width="7" stroke-linecap="round"/>
+        <rect x="21" y="46" width="58" height="43" rx="11" fill="url(#lockGrad)"/>
+        <circle cx="50" cy="64" r="6.5" fill="#241300"/>
+        <rect x="47" y="64" width="6" height="15" rx="3" fill="#241300"/>
+      </svg>
+    </div>
+    <h2 class="lock-title">Website Terkunci</h2>
+    <p class="lock-message">Mohon maaf, website ini tidak bisa diakses karena sudah hari H OSN-P. Akses lagi setelah OSN-P.</p>
+  </div>
+</div>
 
 <div id="burst-layer" class="burst" aria-hidden="true"></div>
 
@@ -1098,6 +1248,61 @@
       '<div class="chip"><div class="num">'+fmt(counts[i])+'</div><div class="lbl">'+name+'</div></div>'
     )).join('') + '<div class="chip"><div class="num">'+fmt(students.length)+'</div><div class="lbl">Total</div></div>';
   })();
+
+  // ---------- OSN-P countdown & auto-lock ----------
+  // These moments are hardcoded here in the script — there is no URL parameter,
+  // form field, localStorage key, or other UI path that changes them. A visitor
+  // has no way to alter what date this counts down to or when the lock triggers.
+  const LOCK_MOMENT = new Date(2026, 6, 19, 23, 59, 0); // 19 Juli 2026, 23:59 — situs otomatis terkunci mulai detik ini
+
+  // Creator-only preview: appending this exact hash to the URL shows the site
+  // as it looks before the lock, even past the real lock moment — useful for
+  // testing. It is not linked or hinted anywhere in the visible page.
+  const PREVIEW_HASH = '#pratinjau-pembuat-osnp2026';
+
+  const mainStage = document.querySelector('main.stage');
+  const siteFooter = document.getElementById('site-footer');
+  const lockScreen = document.getElementById('lock-screen');
+  const cdDays = document.getElementById('cd-days');
+  const cdHours = document.getElementById('cd-hours');
+  const cdMins = document.getElementById('cd-mins');
+  const cdSecs = document.getElementById('cd-secs');
+
+  let isCurrentlyLocked = null; // null so the first tick always applies a state
+
+  function isPastLock(){
+    if(window.location.hash === PREVIEW_HASH) return false;
+    return Date.now() >= LOCK_MOMENT.getTime();
+  }
+
+  function tickCountdown(){
+    const locked = isPastLock();
+    if(locked !== isCurrentlyLocked){
+      isCurrentlyLocked = locked;
+      if(locked){
+        mainStage.classList.add('hidden');
+        siteFooter.classList.add('hidden');
+        lockScreen.classList.remove('hidden');
+      } else {
+        lockScreen.classList.add('hidden');
+        mainStage.classList.remove('hidden');
+        siteFooter.classList.remove('hidden');
+      }
+    }
+    if(locked) return;
+
+    let diff = Math.max(0, LOCK_MOMENT.getTime() - Date.now());
+    const d = Math.floor(diff / 86400000); diff -= d * 86400000;
+    const h = Math.floor(diff / 3600000);  diff -= h * 3600000;
+    const m = Math.floor(diff / 60000);    diff -= m * 60000;
+    const s = Math.floor(diff / 1000);
+    cdDays.textContent = String(d);
+    cdHours.textContent = String(h).padStart(2,'0');
+    cdMins.textContent = String(m).padStart(2,'0');
+    cdSecs.textContent = String(s).padStart(2,'0');
+  }
+  tickCountdown();
+  setInterval(tickCountdown, 1000);
 
   // ---------- Render result ----------
   function renderFound(index){
