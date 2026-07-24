@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Cek Hasil OSN-P — SD/MI Sederajat 2026</title>
+<title>Pengumuman Hasil OSN-K Tahap 2 — SD/MI Sederajat 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -623,6 +623,28 @@
     color:var(--text-dim);
     margin:0;
   }
+  .reveal-countdown{
+    margin-top:22px;
+    padding-top:18px;
+    border-top:1px solid rgba(255,255,255,0.12);
+  }
+  .reveal-countdown-label{
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    margin-bottom:6px;
+  }
+  .reveal-countdown-num{
+    font-family:'Sora',sans-serif;
+    font-weight:800;
+    font-size:28px;
+    font-variant-numeric:tabular-nums;
+    background:linear-gradient(135deg, var(--gold-soft), var(--gold) 60%, #ff9f5a);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
   @media (prefers-reduced-motion:reduce){
     .lock-svg{ animation:none; }
   }
@@ -1018,14 +1040,22 @@
             <stop offset="100%" stop-color="#ff9f5a"/>
           </linearGradient>
         </defs>
-        <path d="M31 46 V31 a19 19 0 0 1 38 0 V46" fill="none" stroke="url(#lockGrad)" stroke-width="7" stroke-linecap="round"/>
-        <rect x="21" y="46" width="58" height="43" rx="11" fill="url(#lockGrad)"/>
-        <circle cx="50" cy="64" r="6.5" fill="#241300"/>
-        <rect x="47" y="64" width="6" height="15" rx="3" fill="#241300"/>
+        <circle cx="50" cy="52" r="34" fill="none" stroke="url(#lockGrad)" stroke-width="7"/>
+        <line x1="50" y1="20" x2="50" y2="26" stroke="url(#lockGrad)" stroke-width="4" stroke-linecap="round"/>
+        <line x1="50" y1="78" x2="50" y2="84" stroke="url(#lockGrad)" stroke-width="4" stroke-linecap="round"/>
+        <line x1="18" y1="52" x2="24" y2="52" stroke="url(#lockGrad)" stroke-width="4" stroke-linecap="round"/>
+        <line x1="76" y1="52" x2="82" y2="52" stroke="url(#lockGrad)" stroke-width="4" stroke-linecap="round"/>
+        <line x1="50" y1="52" x2="50" y2="33" stroke="url(#lockGrad)" stroke-width="5" stroke-linecap="round"/>
+        <line x1="50" y1="52" x2="65" y2="43" stroke="url(#lockGrad)" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="50" cy="52" r="4.5" fill="url(#lockGrad)"/>
       </svg>
     </div>
-    <h2 class="lock-title">Website Terkunci</h2>
-    <p class="lock-message">Mohon maaf, website ini terkunci karena pencarian hasil OSNK SD Tahap 2 sudah tidak relevan lagi. Silahkan kembali lagi pada tanggal 12-13 Agustus 2026.</p>
+    <h2 class="lock-title">Dalam Pengembangan</h2>
+    <p class="lock-message">Pencarian hasil OSN-K SD Tahap 2 akan segera dialihkan ke pencarian hasil OSN-P SD. Tunggu 12-13 Agustus 2026 mendatang.</p>
+    <div id="reveal-countdown" class="reveal-countdown hidden">
+      <div class="reveal-countdown-label">Situs akan otomatis terbuka dalam</div>
+      <div class="reveal-countdown-num" id="reveal-countdown-num">--:--</div>
+    </div>
   </div>
 </div>
 
@@ -1255,6 +1285,12 @@
   // has no way to alter what date this counts down to or when the lock triggers.
   const LOCK_MOMENT = new Date(2026, 6, 19, 23, 59, 0); // 19 Juli 2026, 23:59 — situs otomatis terkunci mulai detik ini
 
+  // REVEAL_MOMENT: once set to a real Date, the site automatically un-locks
+  // the instant this moment is reached (real-time, no reload needed), showing
+  // the live countdown further above the lock message while it counts down.
+  // Left as null = feature inactive, site simply stays locked (current behavior).
+  const REVEAL_MOMENT = null;
+
   // Creator-only preview: appending this exact hash to the URL shows the site
   // as it looks before the lock, even past the real lock moment — useful for
   // testing. It is not linked or hinted anywhere in the visible page.
@@ -1267,11 +1303,14 @@
   const cdHours = document.getElementById('cd-hours');
   const cdMins = document.getElementById('cd-mins');
   const cdSecs = document.getElementById('cd-secs');
+  const revealBox = document.getElementById('reveal-countdown');
+  const revealNum = document.getElementById('reveal-countdown-num');
 
   let isCurrentlyLocked = null; // null so the first tick always applies a state
 
   function isPastLock(){
     if(window.location.hash === PREVIEW_HASH) return false;
+    if(REVEAL_MOMENT && Date.now() >= REVEAL_MOMENT.getTime()) return false;
     return Date.now() >= LOCK_MOMENT.getTime();
   }
 
@@ -1289,7 +1328,19 @@
         siteFooter.classList.remove('hidden');
       }
     }
-    if(locked) return;
+
+    if(locked){
+      if(REVEAL_MOMENT){
+        revealBox.classList.remove('hidden');
+        let rdiff = Math.max(0, REVEAL_MOMENT.getTime() - Date.now());
+        const rm = Math.floor(rdiff / 60000); rdiff -= rm * 60000;
+        const rs = Math.floor(rdiff / 1000);
+        revealNum.textContent = String(rm).padStart(2,'0')+':'+String(rs).padStart(2,'0');
+      } else {
+        revealBox.classList.add('hidden');
+      }
+      return;
+    }
 
     let diff = Math.max(0, LOCK_MOMENT.getTime() - Date.now());
     const d = Math.floor(diff / 86400000); diff -= d * 86400000;
